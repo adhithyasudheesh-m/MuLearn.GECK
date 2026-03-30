@@ -233,6 +233,7 @@
 
     @keyframes riseIn { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform:none; } }
 
+    /* scroll hint */
     .hero-scroll {
       position: absolute;
       bottom: 40px; left: 50%;
@@ -342,19 +343,21 @@
       position: relative;
       height: 420px;
       overflow: hidden;
+      background: var(--bg-3);
     }
     .slide-img-wrap::after {
       content: '';
       position: absolute; inset: 0;
       background: linear-gradient(90deg, transparent 60%, var(--bg));
+      pointer-events: none;
     }
     .slide-img {
-      width: 100%; height: 100%;
-      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       display: block;
       transition: transform 0.8s cubic-bezier(.23,1,.32,1);
     }
-    .slide.active .slide-img { transform: scale(1.04); }
 
     .slide-placeholder {
       width: 100%; height: 420px;
@@ -419,17 +422,14 @@
     }
     .slide-btn:hover { background: var(--purple-mid); border-color: var(--purple-mid); }
 
-    .slide-dots {
-      display: flex; gap: 8px; align-items: center;
-    }
+    .slide-dots { display: flex; gap: 8px; align-items: center; }
     .slide-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--border-soft);
       cursor: pointer;
       transition: all 0.3s;
-      border: none;
-      padding: 0;
+      border: none; padding: 0;
     }
     .slide-dot.active { background: var(--lavender); width: 22px; border-radius: 3px; }
 
@@ -440,16 +440,10 @@
       margin-left: auto;
     }
 
-    @media (max-width: 900px) {
-      .slide { grid-template-columns: 1fr; }
-      .slide-img-wrap, .slide-placeholder { height: 220px; }
-      .slide-img-wrap::after { background: linear-gradient(0deg, var(--bg) 0%, transparent 60%); }
-      .slide-content { padding: 28px 24px 32px; }
-    }
-
     /* ─── ACHIEVEMENTS ─── */
     #achievements { background: var(--bg-2); }
 
+    /* CHANGED: use a single-column layout so stats sit centered under the heading */
     .achievements-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -457,19 +451,25 @@
       align-items: start;
     }
 
+    /* CHANGED: stats grid centered, no extra top margin needed */
     .stats-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1px;
       background: var(--border-soft);
       border: 1px solid var(--border-soft);
+      margin-top: 0;
     }
 
     .stat-cell {
       background: var(--bg-2);
-      padding: 30px 26px;
+      padding: 36px 20px;
       position: relative; overflow: hidden;
       transition: background 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
     .stat-cell:hover { background: var(--bg-3); }
     .stat-cell::after {
@@ -487,9 +487,14 @@
       background: linear-gradient(135deg, var(--purple-light), var(--lavender));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1; margin-bottom: 6px;
+      line-height: 1; margin-bottom: 8px;
     }
-    .stat-label { color: var(--text-muted); font-size: 0.84rem; line-height: 1.5; }
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      line-height: 1.5;
+      text-align: center;
+    }
 
     .highlights-list { display: flex; flex-direction: column; gap: 14px; }
 
@@ -595,19 +600,23 @@
     .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s cubic-bezier(.23,1,.32,1), transform 0.8s cubic-bezier(.23,1,.32,1); }
     .reveal.visible { opacity: 1; transform: none; }
 
+    /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       nav { padding: 16px 20px; }
       .nav-links { display: none; }
       .wrap { padding: 70px 20px; }
       .about-layout, .achievements-layout, .contact-layout { grid-template-columns: 1fr; gap: 36px; }
-      .events-grid { grid-template-columns: 1fr; }
+      .slide { grid-template-columns: 1fr; }
+      .slide-img-wrap { height: 240px; }
+      .slide-img-wrap::after { background: linear-gradient(0deg, var(--bg) 0%, transparent 60%); }
+      .slide-content { padding: 28px 24px 32px; }
       .team-grid { grid-template-columns: repeat(2, 1fr); }
       #home { padding: 120px 20px 80px; }
       footer { flex-direction: column; gap: 12px; padding: 28px 20px; }
       .footer-copy { text-align: center; }
     }
     @media (max-width: 500px) {
-      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
       .team-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
@@ -624,7 +633,7 @@
       <li><a href="#team">Team</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a class="nav-cta" href="https://mulearn.org" target="_blank">Join µLearn</a>
+    <a class="nav-cta" href="https://mulearn.org" target="_blank">Join MuLearn</a>
   </nav>
 
   <section id="home">
@@ -649,11 +658,6 @@
         <a class="btn-primary" href="#about">Explore</a>
         <a class="btn-ghost" href="#contact">Get In Touch</a>
       </div>
-    </div>
-
-    <div class="hero-scroll">
-      <span>Scroll</span>
-      <div class="scroll-track"></div>
     </div>
   </section>
 
@@ -738,7 +742,7 @@
 
           <div class="slide">
             <div class="slide-img-wrap">
-              <img class="slide-img" src="mupulse.jpeg" alt="mupulse">
+              <img class="slide-img" src="mupulse.jpeg" alt="MuPulse">
             </div>
             <div class="slide-content">
               <div class="slide-index">03 / 06</div>
@@ -774,7 +778,7 @@
 
           <div class="slide">
             <div class="slide-img-wrap">
-              <img class="slide-img" src="upside.jpeg" alt="upside down">
+              <img class="slide-img" src="upside.jpeg" alt="Upside Down">
             </div>
             <div class="slide-content">
               <div class="slide-index">05 / 06</div>
@@ -792,7 +796,7 @@
 
           <div class="slide">
             <div class="slide-img-wrap">
-              <img class="slide-img" src="india.jpeg" alt="Code for INDIA">
+              <img class="slide-img" src="india.jpeg" alt="Code for India Hackathon">
             </div>
             <div class="slide-content">
               <div class="slide-index">06 / 06</div>
@@ -819,10 +823,10 @@
       <h2 class="section-heading reveal">Numbers that <span class="accent">speak</span></h2>
       <div class="achievements-layout">
         <div>
-          <div class="stats-grid reveal" style="transition-delay:0.1s; grid-template-columns: 1fr 1fr 1fr;">
+          <div class="stats-grid reveal" style="transition-delay:0.1s">
             <div class="stat-cell">
               <div class="stat-number" data-target="6" data-suffix="th">—</div>
-              <div class="stat-label">Position on µLearn<br/>Yearly Leaderboard</div>
+              <div class="stat-label">Position on µLearn<br/>Yearly Leaderboard 2025</div>
             </div>
             <div class="stat-cell">
               <div class="stat-number" data-target="90" data-suffix="k+">—</div>
@@ -837,7 +841,7 @@
         <div class="highlights-list reveal" style="transition-delay:0.2s">
           <div class="highlight-item">
             <div class="highlight-num">01</div>
-            <div class="highlight-text"><strong>🏅 6th place on µLearn Yearly Leaderboard</strong> — ranked among the top campus chapters nationally, reflecting consistent community engagement.</div>
+            <div class="highlight-text"><strong>🏅 6th place on µLearn Yearly Leaderboard 2025</strong> — ranked among the top campus chapters nationally, reflecting consistent community engagement.</div>
           </div>
           <div class="highlight-item">
             <div class="highlight-num">02</div>
@@ -845,15 +849,11 @@
           </div>
           <div class="highlight-item">
             <div class="highlight-num">03</div>
-            <div class="highlight-text"><strong>🤖 Nourin — AI Interest Group Lead</strong> at µLearn Foundation, representing GECK nationally and driving AI-focused initiatives.</div>
+            <div class="highlight-text"><strong>🤖 Nourin — AI Interest Group Lead 2025</strong> at µLearn Foundation, representing GECK nationally and driving AI-focused initiatives.</div>
           </div>
           <div class="highlight-item">
             <div class="highlight-num">04</div>
-            <div class="highlight-text"><strong>🏗️ Nidhi Ashok — Civil IG Lead</strong> at µLearn Foundation, championing civil engineering innovation on a national stage.</div>
-          </div>
-          <div class="highlight-item">
-            <div class="highlight-num">05</div>
-            <div class="highlight-text"><strong>🏆 15+ Hackathon Wins</strong> — state and national level victories showcasing the talent within our community.</div>
+            <div class="highlight-text"><strong>🏗️ Nidhi Ashok — Civil IG Lead 2025</strong> at µLearn Foundation, championing civil engineering innovation on a national stage.</div>
           </div>
         </div>
       </div>
@@ -863,7 +863,7 @@
   <section id="team">
     <div class="wrap">
       <div class="section-eyebrow reveal">The People</div>
-      <h2 class="section-heading reveal">Core <span class="accent">Team</span></h2>
+      <h2 class="section-heading reveal">Core <span class="accent">Team 2026</span></h2>
       <div class="team-grid">
         <div class="team-card reveal">
           <div class="team-photo-wrap">
@@ -929,7 +929,7 @@
             <div class="contact-icon">🌐</div>
             <div>
               <div class="contact-label">Web Administrator</div>
-              <div class="contact-value">Nandana K</div>
+              <div class="contact-value">Nandana K — <a href="mailto:nandanak@gmail.com">nandanak@gmail.com</a></div>
             </div>
           </div>
           <div class="contact-item">
@@ -943,7 +943,7 @@
         <div class="join-box reveal" style="transition-delay:0.2s">
           <h3>Ready to <span>join us?</span></h3>
           <p>Become part of a thriving community of learners, builders and leaders. Register on the µLearn platform, earn Karma, and grow with us at GEC Kozhikode.</p>
-          <a class="btn-primary" href="https://mulearn.org" target="_blank">Register on µLearn</a>
+          <a class="btn-primary" href="https://mulearn.org" target="_blank">Register on MuLearn</a>
         </div>
       </div>
     </div>
@@ -982,12 +982,11 @@
     let current = 0;
     let autoTimer;
 
-    // Build dots into every slide's dot container
     document.querySelectorAll('.slide-dots, #slideDots').forEach(container => {
       for (let i = 0; i < total; i++) {
         const d = document.createElement('button');
         d.className = 'slide-dot' + (i === 0 ? ' active' : '');
-        d.setAttribute('aria-label', `Go to slide ${i+1}`);
+        d.setAttribute('aria-label', `Go to slide ${i + 1}`);
         d.addEventListener('click', () => goTo(i));
         container.appendChild(d);
       }
@@ -1015,11 +1014,9 @@
       autoTimer = setInterval(() => goTo(current + 1), 5000);
     }
 
-    // Wire up all prev/next buttons
     document.querySelectorAll('#prevBtn, .s-prev').forEach(btn => btn.addEventListener('click', () => goTo(current - 1)));
     document.querySelectorAll('#nextBtn, .s-next').forEach(btn => btn.addEventListener('click', () => goTo(current + 1)));
 
-    // Swipe support
     let touchStartX = 0;
     track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     track.addEventListener('touchend', e => {
@@ -1034,18 +1031,20 @@
     function animateCount(el) {
       const target = parseInt(el.dataset.target);
       const suffix = el.dataset.suffix || '';
-      let current = 0;
+      let val = 0;
       const inc = target / 60;
       const timer = setInterval(() => {
-        current = Math.min(current + inc, target);
-        const display = target >= 1000 ? Math.round(current).toLocaleString() : Math.round(current);
-        el.textContent = display + suffix;
-        if (current >= target) clearInterval(timer);
+        val = Math.min(val + inc, target);
+        el.textContent = (target >= 1000 ? Math.round(val).toLocaleString() : Math.round(val)) + suffix;
+        if (val >= target) clearInterval(timer);
       }, 25);
     }
     const statObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) { e.target.querySelectorAll('.stat-number[data-target]').forEach(animateCount); statObs.unobserve(e.target); }
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.stat-number[data-target]').forEach(animateCount);
+          statObs.unobserve(e.target);
+        }
       });
     }, { threshold: 0.3 });
     const achSection = document.getElementById('achievements');

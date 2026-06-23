@@ -347,6 +347,7 @@
         const encodedCat = encodeURIComponent(event.category);
 
         // Real-time date boundary checking loop logic
+       // Check for expiration first
         let isExpired = false;
         if (event.deadline) {
           const deadlineDate = new Date(event.deadline);
@@ -356,9 +357,17 @@
           }
         }
 
+        // Determine button action based on the 'registration link' column
+        let buttonAction = `window.location.href='register.html?name=${encodedName}&cat=${encodedCat}'`;
+        
+        if (event['registration link'] && event['registration link'].trim().startsWith('http')) {
+            buttonAction = `window.open('${event['registration link'].trim()}', '_blank')`;
+        }
+
+        // Generate the final button HTML
         const actionButtonHTML = isExpired 
           ? `<button class="register-btn" disabled style="background: rgba(255,255,255,0.05); color: var(--text-muted); border-color: var(--border-soft); cursor: not-allowed; transform: none; box-shadow: none;">Closed</button>`
-          : `<button class="register-btn" onclick="window.location.href='register.html?name=${encodedName}&cat=${encodedCat}'">Register</button>`;
+          : `<button class="register-btn" onclick="${buttonAction}">Register</button>`;
 
         const slideHTML = `
           <div class="slide ${index === 0 ? 'active' : ''}" data-slide-idx="${index}">

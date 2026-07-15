@@ -831,3 +831,29 @@ footer {
   .stats-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
 }
+.event-search {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+}
+
+.event-search input {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 18px;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.event-search input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.event-search input:focus {
+  border-color: var(--purple-light);
+  box-shadow: 0 0 10px rgba(170,120,255,0.4);
+}

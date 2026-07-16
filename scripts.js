@@ -97,3 +97,20 @@
     }, { threshold: 0.3 });
     const achSection = document.getElementById('achievements');
     if (achSection) statObs.observe(achSection);
+// ================= FAQ Toggle =================
+
+const faqQuestions = document.querySelectorAll(".faq-question");
+
+faqQuestions.forEach((question) => {
+    question.addEventListener("click", () => {
+        const item = question.parentElement;
+
+        document.querySelectorAll(".faq-item").forEach((faq) => {
+            if (faq !== item) {
+                faq.classList.remove("active");
+            }
+        });
+
+        item.classList.toggle("active");
+    });
+});

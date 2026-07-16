@@ -918,4 +918,32 @@ footer {
 .faq-item.active .faq-question span {
   transform: rotate(45deg);
 }
+/* ================= BACK TO TOP BUTTON ================= */
+
+#backToTop {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: var(--purple-mid);
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  display: none;
+  z-index: 999;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 18px rgba(123,47,247,0.4);
+}
+
+#backToTop:hover {
+  background: var(--purple-light);
+  transform: translateY(-4px);
+}
+
+#backToTop.show {
+  display: block;
+}
 

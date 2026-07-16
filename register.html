@@ -102,12 +102,13 @@
         body: encodedPayload 
       })
       .then(res => {
-        submitBtn.innerText = "Submitted Successfully!";
-        toast.style.display = "block";
-        form.reset();
-        
-        document.getElementById('eventName').value = eventName;
-        document.getElementById('eventCategory').value = eventCategory;
+         submitBtn.innerText = "Submitted Successfully!";
+         toast.style.display = "block";
+
+         // Wait 2 seconds before redirecting to WhatsApp
+         setTimeout(() => {
+             window.location.href = "https://chat.whatsapp.com/Hx1oxCP3KYy8drEDyaIZk9?s=sh&p=a&ilr=0";
+        }, 2000);
       })
       .catch(err => {
         console.error("Error logging submission:", err.message);

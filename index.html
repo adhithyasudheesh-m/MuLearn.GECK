@@ -316,6 +316,9 @@
         console.error("Fetch failure:", err);
         track.innerHTML = `<p style="text-align:center; color:#ff5252; width:100%; padding:40px;">Failed to synchronize live event cards.</p>`;
       });
+    document.getElementById("eventSearch").addEventListener("input", function () {
+       renderFilteredCarousel();
+    });
 
     // Filtering handler linked directly to sub-tab button elements
     function filterEventsByYear(year, buttonElement) {
@@ -330,10 +333,18 @@
 
     function renderFilteredCarousel() {
       // Filter array on the fly based on whether the date string contains '2025' or '2026'
-      const filteredData = allEventsCached.filter(event => {
-        const eventDateStr = String(event.date || '');
-        return eventDateStr.includes(activeYearFilter);
-      });
+      
+     const search = document.getElementById("eventSearch").value.toLowerCase();
+
+     const filteredData = allEventsCached.filter(event => {
+         const matchesYear = String(event.date || '').includes(activeYearFilter);
+ 
+         const matchesSearch =
+             (event.name || "").toLowerCase().includes(search) ||
+             (event.category || "").toLowerCase().includes(search);
+
+         return matchesYear && matchesSearch;
+     }); 
 
       if(filteredData.length === 0) {
         track.innerHTML = `<p style="text-align:center; color:rgba(255,255,255,0.5); width:100%; padding:60px; font-family:'Space Mono', monospace; font-size:0.9rem;">No entries found for the year ${activeYearFilter}.</p>`;
